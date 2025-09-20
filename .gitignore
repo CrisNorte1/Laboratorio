@@ -25,7 +25,9 @@ replay_pid*
 
 
 # Maven generated files
-target/
+ear/target/
+ejb/target/
+web/target/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup

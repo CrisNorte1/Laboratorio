@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xml:lang="es">
 <h:head>
     <title>Menú Principal del Laboratorio</title>
 </h:head>
@@ -32,6 +33,11 @@
                 <!-- ENLACE PARA VISTA SERVLET (.jsp) -->
                 <h:outputLink value="#{request.contextPath}/usuarioServicioSalud">
                     Gestionar Usuarios y Servicios (Servlet)
+                </h:outputLink>
+            </li>
+            <li>
+                <h:outputLink value="#{request.contextPath}/historiaClinica">
+                    Gestionar Historia Clinica 3
                 </h:outputLink>
             </li>
         </ul>

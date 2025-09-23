@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+<ui:composition>
+    <p:menubar>
+        <!-- Inicio -->
+        <p:menuitem value="Inicio" icon="pi pi-home" url="#{request.contextPath}/index.xhtml" />
+
+        <!-- Submenú de Gestión -->
+        <p:submenu label="Gestión" icon="pi pi-briefcase">
+            <p:menuitem value="Trabajadores de Salud (JSF)"
+                        icon="pi pi-users"
+                        outcome="vistas/TrabajadorSaludVista" />
+            <p:menuitem value="Prestadores de Salud (Servlet)"
+                        icon="pi pi-building"
+                        url="#{request.contextPath}/prestadorSalud" />
+            <p:menuitem value="Usuarios y Servicios (Servlet)"
+                        icon="pi pi-id-card"
+                        url="#{request.contextPath}/usuarioServicioSalud" />
+            <p:menuitem value="Historia Clínica"
+                        icon="pi pi-book"
+                        url="#{request.contextPath}/historiaClinica" />
+        </p:submenu>
+
+        <p:divider layout="vertical"/>
+
+        <f:facet name="options">
+            <h:outputText value="Práctico - Grupo 4" style="font-weight:bold; margin-right:2rem;" />
+        </f:facet>
+    </p:menubar>
+</ui:composition>
+</html>

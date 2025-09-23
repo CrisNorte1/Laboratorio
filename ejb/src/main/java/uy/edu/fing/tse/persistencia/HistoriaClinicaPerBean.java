@@ -1,6 +1,7 @@
 package uy.edu.fing.tse.persistencia;
 
 import jakarta.ejb.Singleton;
+import uy.edu.fing.tse.api.HistoriaClinicaDAO;
 import uy.edu.fing.tse.entidades.HistoriaClinica;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Singleton
 public class HistoriaClinicaPerBean implements
-        IHistoriaClinicaDAO {
+        HistoriaClinicaDAO {
 
     private static final Map<Long, HistoriaClinica> DATA = new HashMap<>();
     private static final AtomicLong SEQ = new AtomicLong(1);

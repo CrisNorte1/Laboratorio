@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import uy.edu.fing.tse.entidades.HistoriaClinica;
-import uy.edu.fing.tse.servicios.IHistoriaClinicaService;
+import uy.edu.fing.tse.api.HistoriaClinicaService;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -17,13 +17,13 @@ import java.util.List;
 public class HistoriaClinicaServlet extends HttpServlet {
 
     @EJB
-    private IHistoriaClinicaService historiaClinicaService;
+    private HistoriaClinicaService historiaClinicaService;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        List<HistoriaClinica> historias = historiaClinicaService.listarTodas();
+        List<HistoriaClinica> historias = historiaClinicaService.listar();
 
         request.setAttribute("historias", historias);
 

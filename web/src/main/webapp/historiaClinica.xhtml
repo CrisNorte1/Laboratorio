@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xml:lang="es">
+
+<h:head>
+    <title>Gestión de Historias Clínicas</title>
+</h:head>
+
+<h:body>
+    <!-- Navbar común -->
+    <ui:include src="commons/navbar.xhtml"/>
+
+    <h:panelGroup style="margin:1rem;">
+        <h1>Gestión de Historias Clínicas</h1>
+    </h:panelGroup>
+
+    <!-- Growl para mensajes (opcional) -->
+    <h:form id="growlForm">
+        <p:growl id="msgs" showDetail="true" life="4000"/>
+    </h:form>
+
+    <!-- Formulario creación -->
+    <h:form id="formCrear" style="margin:1rem 0;">
+        <p:card>
+            <f:facet name="header">
+                <h:outputText value="Crear nueva Historia Clínica"/>
+            </f:facet>
+
+            <h:panelGrid columns="2" columnClasses="label,value" style="width:100%">
+                <h:outputLabel for="idUsuario" value="Paciente ID:"/>
+                <p:inputText id="idUsuario" value="#{historiaClinicaBean.nuevaHistoria.idUsuarioSalud}"
+                             required="true"/>
+
+                <h:outputLabel for="numero" value="Número Historia:"/>
+                <p:inputText id="numero" value="#{historiaClinicaBean.nuevaHistoria.numeroHistoria}" required="true"/>
+
+                <h:outputLabel for="especialidad" value="Especialidad:"/>
+                <p:inputText id="especialidad" value="#{historiaClinicaBean.nuevaHistoria.especialidad}"/>
+
+                <h:outputLabel for="prestador" value="Prestador:"/>
+                <p:inputText id="prestador" value="#{historiaClinicaBean.nuevaHistoria.prestador}"/>
+
+                <h:outputLabel for="motivo" value="Motivo de Consulta:"/>
+                <p:inputTextarea id="motivo" value="#{historiaClinicaBean.nuevaHistoria.motivoConsulta}" rows="3"
+                                 cols="40"/>
+            </h:panelGrid>
+
+            <p:commandButton value="Crear"
+                             action="#{historiaClinicaBean.crear}"
+                             update=":formTabla:tablaHistorias :growlForm:msgs formCrear"
+                             icon="pi pi-check"
+                             styleClass="ui-button-success"
+                             oncomplete="PF('dlgCrear').hide()"/>
+        </p:card>
+    </h:form>
+
+    <!-- Búsqueda -->
+    <h:form id="formBusqueda" style="margin:1rem 0;">
+        <p:inputText id="buscar" value="#{historiaClinicaBean.buscarTexto}"
+                     placeholder="Buscar por número, motivo, especialidad o prestador"
+                     style="width:320px">
+            <p:ajax event="keyup" update=":formTabla:tablaHistorias"/>
+        </p:inputText>
+    </h:form>
+
+    <!--TODO:-->
+    <!-- fix  tabla busqueda y funcionalidades actualizar/eliminar-->
+    <!-- Tabla + acciones (selección + eliminar seleccionado) -->
+    <h:form id="formTabla" style="margin:1rem 0;">
+        <p:toolbar>
+            <f:facet name="left">
+                <p:commandButton value="Eliminar seleccionado"
+                                 icon="pi pi-trash"
+                                 styleClass="ui-button-danger"
+                                 update="tablaHistorias :growlForm:msgs"
+                                 action="#{historiaClinicaBean.eliminarSeleccionado}"
+                                 disabled="#{empty historiaClinicaBean.historiaSeleccionada}"/>
+            </f:facet>
+        </p:toolbar>
+
+        <p:dataTable id="tablaHistorias"
+                     value="#{historiaClinicaBean.historiasFiltradas}"
+                     var="hc"
+                     paginator="true" rows="8"
+                     selection="#{historiaClinicaBean.historiaSeleccionada}"
+                     selectionMode="single"
+                     rowKey="#{hc.id}"
+                     emptyMessage="No se encontraron historias clínicas"
+                     style="margin-top:0.5rem;">
+
+            <p:column selectionMode="single" style="width:3%"/>
+
+            <p:column headerText="ID" style="width:6%">
+                <h:outputText value="#{hc.id}"/>
+            </p:column>
+
+            <p:column headerText="Paciente ID">
+                <h:outputText value="#{hc.idUsuarioSalud}"/>
+            </p:column>
+
+            <p:column headerText="Número HC">
+                <h:outputText value="#{hc.numeroHistoria}"/>
+            </p:column>
+
+            <p:column headerText="Especialidad">
+                <h:outputText value="#{hc.especialidad}"/>
+            </p:column>
+
+            <p:column headerText="Prestador">
+                <h:outputText value="#{hc.prestador}"/>
+            </p:column>
+
+            <p:column headerText="Fecha de Creación">
+                <h:outputText value="#{historia.fechaCreacion}">
+                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" type="localDateTime"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column headerText="Motivo Consulta">
+                <h:outputText value="#{hc.motivoConsulta}"/>
+            </p:column>
+
+            <p:column headerText="Acciones" style="width:12%">
+                <p:commandButton icon="pi pi-pencil" title="Editar"
+                                 actionListener="#{historiaClinicaBean.prepararEdicion(hc)}"
+                                 update=":formEditar"
+                                 oncomplete="PF('dlgEditar').show()"/>
+
+                <p:commandButton icon="pi pi-trash" title="Eliminar"
+                                 action="#{historiaClinicaBean.eliminar(hc.id)}"
+                                 update="tablaHistorias :growlForm:msgs"
+                                 styleClass="ui-button-danger"
+                                 oncomplete="PF('tblWidget').clearFilters()"/>
+            </p:column>
+
+        </p:dataTable>
+    </h:form>
+
+    <!-- Diálogo de edición -->
+    <p:dialog header="Editar Historia Clínica" widgetVar="dlgEditar" modal="true" resizable="false">
+        <h:form id="formEditar">
+            <h:panelGrid columns="2" columnClasses="label,value" style="width:100%">
+                <h:outputLabel for="idUsuarioEdit" value="Paciente ID:"/>
+                <p:inputText id="idUsuarioEdit" value="#{historiaClinicaBean.historiaSeleccionada.idUsuarioSalud}"
+                             required="true"/>
+
+                <h:outputLabel for="numeroEdit" value="Número Historia:"/>
+                <p:inputText id="numeroEdit" value="#{historiaClinicaBean.historiaSeleccionada.numeroHistoria}"
+                             required="true"/>
+
+                <h:outputLabel for="especialidadEdit" value="Especialidad:"/>
+                <p:inputText id="especialidadEdit" value="#{historiaClinicaBean.historiaSeleccionada.especialidad}"/>
+
+                <h:outputLabel for="prestadorEdit" value="Prestador:"/>
+                <p:inputText id="prestadorEdit" value="#{historiaClinicaBean.historiaSeleccionada.prestador}"/>
+
+                <h:outputLabel for="motivoEdit" value="Motivo de Consulta:"/>
+                <p:inputTextarea id="motivoEdit" value="#{historiaClinicaBean.historiaSeleccionada.motivoConsulta}"
+                                 rows="4" cols="30"/>
+            </h:panelGrid>
+
+            <p:commandButton value="Guardar" icon="pi pi-check"
+                             action="#{historiaClinicaBean.actualizar}"
+                             update=":formTabla:tablaHistorias :growlForm:msgs"
+                             oncomplete="PF('dlgEditar').hide()"/>
+        </h:form>
+    </p:dialog>
+
+</h:body>
+</html>

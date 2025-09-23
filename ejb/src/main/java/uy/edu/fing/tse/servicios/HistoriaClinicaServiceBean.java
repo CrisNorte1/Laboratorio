@@ -2,16 +2,17 @@ package uy.edu.fing.tse.servicios;
 
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
+import uy.edu.fing.tse.api.HistoriaClinicaService;
 import uy.edu.fing.tse.entidades.HistoriaClinica;
-import uy.edu.fing.tse.persistencia.IHistoriaClinicaDAO;
+import uy.edu.fing.tse.api.HistoriaClinicaDAO;
 
 import java.util.List;
 
 @Stateless
-public class HistoriaClinicaServiceBean implements  IHistoriaClinicaService{
+public class HistoriaClinicaServiceBean implements HistoriaClinicaService {
 
     @EJB
-    private IHistoriaClinicaDAO persistence;
+    private HistoriaClinicaDAO persistence;
 
     @Override
     public HistoriaClinica crear(HistoriaClinica historia) {
@@ -34,7 +35,7 @@ public class HistoriaClinicaServiceBean implements  IHistoriaClinicaService{
     }
 
     @Override
-    public List<HistoriaClinica> listarTodas() {
+    public List<HistoriaClinica> listar() {
         return persistence.listarTodas();
     }
 }

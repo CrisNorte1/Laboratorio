@@ -1,46 +1,41 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:p="http://primefaces.org/ui"
       xml:lang="es">
-<h:head>
-    <title>Menú Principal del Laboratorio</title>
-</h:head>
-<h:body>
-    <h1>Menú Principal</h1>
-    <p>Seleccione una opción para continuar:</p>
 
-    <!-- Usamos un formulario para los botones de JSF -->
-    <h:form>
-        <ul>
-            <li>
-                <!-- BOTÓN PARA VISTA JSF (.xhtml) -->
-                <!-- 'outcome' navega a otra vista JSF. JSF busca un archivo con este nombre. -->
-                <!-- No necesitas poner la ruta completa ni la extensión .xhtml -->
-                <h:button value="Gestionar Trabajadores de Salud (JSF)" 
-                          outcome="vistas/TrabajadorSaludVista" />
-            </li>
-            
-            <li>
-                <!-- ENLACE PARA VISTA SERVLET (.jsp) -->
-                <!-- Para llamar a un servlet, usamos un enlace normal. -->
-                <!-- '#{request.contextPath}' es la forma correcta de obtener la URL base de tu app, ej: /Laboratorio-web -->
-                <h:outputLink value="#{request.contextPath}/prestadorSalud">
-                    Gestionar Prestadores de Salud (Servlet)
-                </h:outputLink>
-            </li>
-            
-            <li>
-                <!-- ENLACE PARA VISTA SERVLET (.jsp) -->
-                <h:outputLink value="#{request.contextPath}/usuarioServicioSalud">
-                    Gestionar Usuarios y Servicios (Servlet)
-                </h:outputLink>
-            </li>
-            <li>
-                <h:outputLink value="#{request.contextPath}/historiaClinica">
-                    Gestionar Historia Clinica 3
-                </h:outputLink>
-            </li>
-        </ul>
-    </h:form>
+<h:head>
+    <title>Menú Principal del Práctico</title>
+</h:head>
+
+<h:body style="margin:0; padding:0; font-family: Arial, sans-serif; background-color:#f4f6f9;">
+
+    <!-- Navbar -->
+    <ui:include src="commons/navbar.xhtml" />
+
+    <!-- Contenido principal -->
+    <div style="display:flex; justify-content:center; align-items:center; height:90vh;">
+        <p:card style="width:40rem; text-align:center; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+            <h2 style="color:#333; margin-bottom:1rem;">Práctico Grupo 4</h2>
+            <p style="font-size:1.1rem; color:#555;">
+                Bienvenido al sistema de gestión de salud.
+                Utilice el menú de navegación superior para acceder a los módulos.
+            </p>
+            <p:divider />
+
+            <!-- Demo de un componente -->
+            <p:panelGrid columns="1" style="margin-top:1rem;">
+                <p:commandButton value="Ver Trabajadores de Salud"
+                                 icon="pi pi-users"
+                                 styleClass="ui-button-raised ui-button-info"
+                                 outcome="vistas/TrabajadorSaludVista"/>
+                <p:commandButton value="Ver Historia Clínica"
+                                 icon="pi pi-book"
+                                 styleClass="ui-button-raised ui-button-success"
+                                 onclick="window.location.href='#{request.contextPath}/historiaClinica';"/>
+            </p:panelGrid>
+        </p:card>
+    </div>
 </h:body>
 </html>

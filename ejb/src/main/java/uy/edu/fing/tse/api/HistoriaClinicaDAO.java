@@ -1,4 +1,4 @@
-package uy.edu.fing.tse.persistencia;
+package uy.edu.fing.tse.api;
 
 import jakarta.ejb.Local;
 import uy.edu.fing.tse.entidades.HistoriaClinica;
@@ -6,7 +6,7 @@ import uy.edu.fing.tse.entidades.HistoriaClinica;
 import java.util.List;
 
 @Local
-public interface IHistoriaClinicaDAO {
+public interface HistoriaClinicaDAO {
     HistoriaClinica crear(HistoriaClinica historia);
     HistoriaClinica actualizar(HistoriaClinica historia);
     void eliminar(Long id);

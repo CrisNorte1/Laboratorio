@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html" xmlns:f="jakarta.faces.core"
+    xmlns:ui="jakarta.faces.facelets">
 
 <h:head>
     <title>Gestión de Trabajadores con JSF</title>
 </h:head>
+
 <h:body>
     <h1>Formulario de Alta</h1>
 
@@ -22,7 +22,6 @@
         </h:panelGrid>
 
         <h:commandButton value="Agregar Trabajador" action="#{trabajadorSaludBean.darDeAlta}">
-
             <f:ajax execute="@form" render=":tablaTrabajadores :formAlta" />
         </h:commandButton>
     </h:form>
@@ -34,7 +33,7 @@
         <h:panelGrid columns="3" style="vertical-align: middle;">
             <h:outputLabel for="cedulaBusqueda" value="Ingrese Cédula:" />
             <h:inputText id="cedulaBusqueda" value="#{trabajadorSaludBean.cedulaBusqueda}" />
-            
+
             <h:commandButton value="Buscar" action="#{trabajadorSaludBean.buscarPorCedula}">
                 <f:ajax execute="@form" render=":areaResultados" />
             </h:commandButton>
@@ -42,16 +41,17 @@
     </h:form>
 
     <h:panelGroup id="areaResultados" layout="block">
-
         <h:panelGroup id="panelMensajes">
             <h:messages style="color: red;" />
         </h:panelGroup>
 
         <h:panelGroup id="resultadoBusqueda">
-            <h:panelGrid columns="2" rendered="#{trabajadorSaludBean.trabajadorEncontrado != null}" style="margin-top: 20px; border: 1px solid black; padding: 10px;">
+            <h:panelGrid columns="2" rendered="#{trabajadorSaludBean.trabajadorEncontrado != null}"
+                style="margin-top: 20px; border: 1px solid black; padding: 10px;">
                 <f:facet name="header">
-                     <h:outputText value="Resultado de la Búsqueda" />
+                    <h:outputText value="Resultado de la Búsqueda" />
                 </f:facet>
+
                 <h:outputLabel value="ID:" />
                 <h:outputText value="#{trabajadorSaludBean.trabajadorEncontrado.id}" />
 
@@ -68,20 +68,28 @@
                 <h:outputText value="#{trabajadorSaludBean.trabajadorEncontrado.especialidad}" />
             </h:panelGrid>
         </h:panelGroup>
-
     </h:panelGroup>
 
     <hr />
-    
-    <h1>Listado de Trabajadores</h1>
-    
-    <h:dataTable id="tablaTrabajadores" value="#{trabajadorSaludBean.trabajadores}" var="t" border="1">
-        <h:column><f:facet name="header">ID</f:facet>#{t.id}</h:column>
-        <h:column><f:facet name="header">Cédula</f:facet>#{t.cedula}</h:column>
-        <h:column><f:facet name="header">Nombre Completo</f:facet>#{t.nombreCompleto}</h:column>
-        <h:column><f:facet name="header">Fecha Ingreso</f:facet>#{t.fechaIngreso}</h:column>
-        <h:column><f:facet name="header">Especialidad</f:facet>#{t.especialidad}</h:column>
-    </h:dataTable>
 
+    <h1>Listado de Trabajadores</h1>
+    <h:dataTable id="tablaTrabajadores" value="#{trabajadorSaludBean.trabajadores}" var="t" border="1">
+        <h:column>
+            <f:facet name="header">ID</f:facet>#{t.id}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Cédula</f:facet>#{t.cedula}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Nombre Completo</f:facet>#{t.nombreCompleto}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Fecha Ingreso</f:facet>#{t.fechaIngreso}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Especialidad</f:facet>#{t.especialidad}
+        </h:column>
+    </h:dataTable>
 </h:body>
+
 </html>

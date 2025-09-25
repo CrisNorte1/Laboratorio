@@ -1,8 +1,14 @@
 package uy.edu.fing.tse.entidades;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class HistoriaClinica {
+public class HistoriaClinica implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private Long idUsuarioSalud;
     private String numeroHistoria;
@@ -15,7 +21,7 @@ public class HistoriaClinica {
     }
 
     public HistoriaClinica(Long id, Long idUsuarioSalud, String numeroHistoria,
-                           String especialidad, String prestador, LocalDateTime fechaCreacion, String motivoConsulta) {
+            String especialidad, String prestador, LocalDateTime fechaCreacion, String motivoConsulta) {
         this.id = id;
         this.idUsuarioSalud = idUsuarioSalud;
         this.numeroHistoria = numeroHistoria;
@@ -25,7 +31,8 @@ public class HistoriaClinica {
         this.motivoConsulta = motivoConsulta;
     }
 
-    public HistoriaClinica(String motivoConsulta, String numeroHistoria, LocalDateTime fechaCreacion, Long idUsuarioSalud, Long id) {
+    public HistoriaClinica(String motivoConsulta, String numeroHistoria, LocalDateTime fechaCreacion,
+            Long idUsuarioSalud, Long id) {
         this.motivoConsulta = motivoConsulta;
         this.numeroHistoria = numeroHistoria;
         this.fechaCreacion = fechaCreacion;
@@ -69,6 +76,10 @@ public class HistoriaClinica {
         return motivoConsulta;
     }
 
+    public void setMotivoConsulta(String motivoConsulta) {
+        this.motivoConsulta = motivoConsulta;
+    }
+
     public String getEspecialidad() {
         return especialidad;
     }
@@ -83,9 +94,5 @@ public class HistoriaClinica {
 
     public void setPrestador(String prestador) {
         this.prestador = prestador;
-    }
-
-    public void setMotivoConsulta(String motivoConsulta) {
-        this.motivoConsulta = motivoConsulta;
     }
 }

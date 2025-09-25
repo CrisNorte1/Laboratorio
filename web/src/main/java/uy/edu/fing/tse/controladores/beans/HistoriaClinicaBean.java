@@ -22,45 +22,48 @@ public class HistoriaClinicaBean implements Serializable {
     private HistoriaClinicaService service;
 
     private HistoriaClinica nuevaHistoria = new HistoriaClinica();
-
     private HistoriaClinica historiaSeleccionada;
-
     private String buscarTexto;
 
-    public void crear() {
+    public String crear() {
         nuevaHistoria.setFechaCreacion(LocalDateTime.now());
         service.crear(nuevaHistoria);
-        nuevaHistoria = new HistoriaClinica();
+        nuevaHistoria = new HistoriaClinica(); // limpia form
+        return null; // mismo view
     }
 
-    public void prepararEdicion(HistoriaClinica hc) {
+    public String prepararEdicion(HistoriaClinica hc) {
         if (hc == null || hc.getId() == null) {
             historiaSeleccionada = new HistoriaClinica();
-            return;
+            return null;
         }
         this.historiaSeleccionada = service.obtenerPorId(hc.getId());
+        return null;
     }
 
-    public void actualizar() {
+    public String actualizar() {
         if (historiaSeleccionada != null) {
             service.actualizar(historiaSeleccionada);
         }
+        return null;
     }
 
-    public void eliminar(Long id) {
+    public String eliminar(Long id) {
         if (id != null) {
             service.eliminar(id);
             if (historiaSeleccionada != null && id.equals(historiaSeleccionada.getId())) {
                 historiaSeleccionada = null;
             }
         }
+        return null;
     }
 
-    public void eliminarSeleccionado() {
+    public String eliminarSeleccionado() {
         if (historiaSeleccionada != null && historiaSeleccionada.getId() != null) {
             service.eliminar(historiaSeleccionada.getId());
             historiaSeleccionada = null;
         }
+        return null;
     }
 
     public List<HistoriaClinica> getHistoriasFiltradas() {
@@ -70,16 +73,14 @@ public class HistoriaClinicaBean implements Serializable {
         }
         String filtro = buscarTexto.toLowerCase();
         return todas.stream()
-                .filter(h ->
-                        (h.getNumeroHistoria() != null && h.getNumeroHistoria().toLowerCase().contains(filtro)) ||
-                                (h.getMotivoConsulta() != null && h.getMotivoConsulta().toLowerCase().contains(filtro)) ||
-                                (h.getEspecialidad() != null && h.getEspecialidad().toLowerCase().contains(filtro)) ||
-                                (h.getPrestador() != null && h.getPrestador().toLowerCase().contains(filtro))
-                )
+                .filter(h -> (h.getNumeroHistoria() != null && h.getNumeroHistoria().toLowerCase().contains(filtro)) ||
+                        (h.getMotivoConsulta() != null && h.getMotivoConsulta().toLowerCase().contains(filtro)) ||
+                        (h.getEspecialidad() != null && h.getEspecialidad().toLowerCase().contains(filtro)) ||
+                        (h.getPrestador() != null && h.getPrestador().toLowerCase().contains(filtro)))
                 .toList();
     }
 
-    /* -------------------- Getters / Setters -------------------- */
+    // Getters / Setters
     public HistoriaClinica getNuevaHistoria() {
         return nuevaHistoria;
     }
